@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Databases } from 'appwrite';
 import { client, database } from '../appwriteConfig/config';
+import { UserDetailsId, dbId } from '../utils/environmentVars';
+import toast from 'react-hot-toast';
 
 
 const UserDetails = () => {
@@ -27,7 +29,9 @@ const UserDetails = () => {
     console.log({ name, gender, interests, smoking });
 
     try {
-        const response = await database.createDocument('65d93215af46d0861583', '65d932540eace0dc8ca1', "unique()",{
+
+      const toastId = toast.loading("Loading...")
+        const response = await database.createDocument(dbId, UserDetailsId, "unique()",{
             name,
             gender,
             interest : interests,
@@ -35,13 +39,15 @@ const UserDetails = () => {
         });
         
         console.log('Record updated successfully:', response);
-
+        toast.success("userdetails updated");
 
         const res = await database.listDocuments('65d93215af46d0861583', '65d932540eace0dc8ca1');
         console.log(res);
+        toast.dismiss(toastId);
 
       } catch (error) {
         console.error('Error updating record:', error);
+        toast.error("user details not updated");
       }
   };
 
