@@ -4,6 +4,7 @@ import { Databases } from 'appwrite';
 import { client, database } from '../appwriteConfig/config';
 import { UserDetailsId, dbId } from '../utils/environmentVars';
 import toast from 'react-hot-toast';
+import { Input } from '../components/ui/input';
 
 
 const UserDetails = () => {
@@ -57,7 +58,9 @@ const UserDetails = () => {
       <form onSubmit={handleSubmit}>
         <label>
           Name:
-          <input required type="text" value={name} onChange={(e) => setName(e.target.value)} />
+          
+          <Input required type="text" value={name} onChange={(e) => setName(e.target.value)} />
+
         </label>
         <br />
         <label>
