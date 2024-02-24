@@ -1,9 +1,10 @@
-const API_KEY = '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' ;
+const API_KEY = process.env.REACT_APP_CHATGPT_API_KEY ;
 
 
 export const chatGptIntegration = async ({que}) => {
 
     console.log(que);
+    // console.log("API_KEY", API_KEY);
 
     const options = {
 
