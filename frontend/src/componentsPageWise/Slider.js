@@ -1,4 +1,7 @@
 import React from 'react';
+import { Badge } from "../components/ui/badge"
+import { FaMale } from "react-icons/fa";
+import { FaFemale } from "react-icons/fa";
 
   
 import {
@@ -13,13 +16,18 @@ const Slider = ({user}) => {
 
     const name = user?.name ;
     const profileImg = user?.profileImg ;
-    const interst = user?.interst ;
+    const interst = user?.interest ;
+    const gender = user?.gender === 'male'
+    //console.log("interst=>", interst);
 
   return (
-    <CarouselItem className='text-white '>
-        <div className='text-xl '> 
-            {name}
+    <CarouselItem className='text-white flex flex-col gap-y-3 items-center justify-center'>
+        <div className='text-xl uppercase flex items-center justify-center gap-x-5'>  
+            <p>{name}</p>
+            <p className={`h-[20px] flex items-center justify-center w-[20px] rounded-md p-3 ${user?.gender === 'male' ? 'bg-blue-700' : 'bg-pink-500'}`}>{user?.gender === 'male' ? <FaMale className='absolute'/> : <FaFemale className='absolute' />}</p>
         </div>
+        
+
         
         <div>
             {
@@ -37,9 +45,7 @@ const Slider = ({user}) => {
                     {
                         interst.map((int)=>{
                             return(
-                                <div className='text-white'>
-                                    {int}
-                                </div>
+                                <Badge className={'text-black bg-white ml-2'} variant="outline">{int}</Badge>
                             )
                         })
                     }
