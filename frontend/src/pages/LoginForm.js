@@ -6,6 +6,7 @@ import { UserDetailsId, dbId } from '../utils/environmentVars';
 import { Query } from 'appwrite';
 import { Input } from '../components/ui/input';
 import { Button } from '../components/ui/button';
+import toast from 'react-hot-toast';
 
 function LoginForm() {
   const [email, setEmail] = useState('');
@@ -30,6 +31,7 @@ function LoginForm() {
     console.log('Email:', email);
     console.log('Password:', password);
     
+    var toastId = toast.loading("trying to login");
 
     try{
         // trying to login using appwrite
@@ -49,8 +51,10 @@ function LoginForm() {
             //setUserId(login.$id);
             setUserDocId(collection.documents[0].$id);
 
+            toast.success("login successfull");
             navigate("/");
 
+            toast.dismiss(toastId);
 
         }
 
@@ -58,6 +62,8 @@ function LoginForm() {
 
     catch(error){
         console.log("error=>", error);
+        toast.error(`${error.message}`);
+        toast.dismiss(toastId);
     }
 
 

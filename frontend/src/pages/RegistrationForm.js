@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { account, database } from '../appwriteConfig/config';
 import { UserDetailsId, dbId } from '../utils/environmentVars';
+import { Input } from '../components/ui/input';
+import { Button } from '../components/ui/button';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 const RegistrationForm = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+
+  const navigate = useNavigate();
 
   const handleUsernameChange = (event) => {
     setUsername(event.target.value);
@@ -26,6 +32,8 @@ const RegistrationForm = () => {
     console.log('Password:', password);
     console.log('Email:', email);
 
+    var toastId = toast.loading("trying to register");
+
     try{
         const name = username ;
 
@@ -43,42 +51,56 @@ const RegistrationForm = () => {
         // setUsername('');
         // setPassword('');
         // setEmail('');
+
+        toast.success("registration successfull");
+
+        navigate("/login");
+        toast.dismiss(toastId);
+        
     }
     catch(error){
         console.log("erorr", error);
+        toast.error("error in registration");
+        toast.dismiss(toastId);
     }
+    
+    toast.dismiss(toastId);
+
   };
 
   return (
-    <form className='text' onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="username">Username:</label>
-        <input
+    <form className='flex flex-col gap-5 item-center justify-center mt-10 w-[50%] mx-auto ' onSubmit={handleSubmit}>
+      <div className='flex items-center justify-evenly gap-x-5'>
+        <label htmlFor="username"><p className='text-white font-bold' >Username</p></label>
+        <Input
           type="text"
           id="username"
           value={username}
           onChange={handleUsernameChange}
+          className='text-white'
         />
       </div>
-      <div>
-        <label htmlFor="password">Password:</label>
-        <input
+      <div className='flex items-center justify-evenly gap-x-5'>
+        <label className='text-white font-bold'  htmlFor="password">Password</label>
+        <Input
           type="password"
           id="password"
           value={password}
           onChange={handlePasswordChange}
+          className='text-white'
         />
       </div>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
+      <div  className='flex items-center justify-evenly gap-x-5'>
+        <label className='text-white font-bold'  htmlFor="email">Email</label>
+        <Input
           type="email"
           id="email"
           value={email}
           onChange={handleEmailChange}
+          className='text-white'
         />
       </div>
-      <button type="submit">Register</button>
+      <Button type="submit">Register</Button>
     </form>
   );
 };
