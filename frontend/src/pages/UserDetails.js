@@ -20,6 +20,7 @@ import { Label } from "../components/ui/label"
 
 import { Textarea } from "../components/ui/textarea"
 import { AppContext } from '../context/AppContext';
+import { useNavigate } from 'react-router-dom';
 
 
 const UserDetails = () => {
@@ -31,6 +32,8 @@ const UserDetails = () => {
   const [bio, setBio] = useState('');
 
   const {login, userDocId, loginEmail} = useContext(AppContext);
+
+  const navigate = useNavigate();
 
   useEffect(()=>{
     async function getUserDetails(){
@@ -218,7 +221,16 @@ const UserDetails = () => {
 
         <Button  className='text-blue-600 w-[20%] mt-5 mx-auto' type='submit' variant="outline">Submit</Button>
       </form>
+
+      <div onClick={()=> {
+        navigate("/profile-match");
+      }}>
+        move to matchingpage
+      </div>
     </div>
+
+
+
   );
 };
 

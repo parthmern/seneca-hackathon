@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { chatGptIntegration } from "../utils/chatGptIntegrate";
 import { client, database } from "../appwriteConfig/config";
 import Slider from "../componentsPageWise/Slider";
@@ -11,11 +11,15 @@ import {
     CarouselPrevious,
   } from "../components/ui/carousel" ;
 import toast from "react-hot-toast";
+import { AppContext } from "../context/AppContext";
+import { UserDetailsId, dbId } from "../utils/environmentVars";
 
 const ProfileMatchePage = () => {
     const [matchedUser, setMatchedUser] = useState();
     const [docs, setDocs] = useState();
     const [loading, setLoading] = useState(true);
+
+    const {login, userDocId} = useContext(AppContext);
 
     useEffect(async () => {
 
@@ -31,10 +35,13 @@ const ProfileMatchePage = () => {
 
             setDocs(res.documents);
 
+            const originalUser = await database.getDocument(dbId, UserDetailsId, userDocId);
+            console.log("originaluserr====>",originalUser);
+
             const que = `${JSON.stringify(res.documents)} this is the DB
 
             for${JSON.stringify(
-                res.documents[0]
+                originalUser
             )} this USER, find the matching users who can live together  without any conflicts and they have more chances to become good
             friends according to your experiance and common sense
 
