@@ -5,10 +5,12 @@ import UserDetails from "./pages/UserDetails";
 import ProfileMatchePage from "./pages/ProfileMatchePage";
 import RegistrationForm from "./pages/RegistrationForm";
 import LoginForm from "./pages/LoginForm";
+import { Navbar } from "./componentsPageWise/Navbar";
 
 function App() {
   return (
     <div>
+      <Navbar/>
       <Routes>
     
       <Route path="/" element={<HomePage/>} />
