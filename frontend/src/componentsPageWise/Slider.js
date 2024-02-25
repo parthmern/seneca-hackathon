@@ -13,6 +13,7 @@ const Slider = ({user}) => {
 
     const name = user?.name ;
     const profileImg = user?.profileImg ;
+    const interst = user?.interst ;
 
   return (
     <CarouselItem className='text-white '>
@@ -25,10 +26,28 @@ const Slider = ({user}) => {
                 profileImg &&
                 <div className='w-[50%] mx-auto rounded'>
                     <img className='rounded' src={profileImg}></img>
-
                 </div>
             }
         </div>
+
+        <div>
+            {
+                interst && (
+                    <>
+                    {
+                        interst.map((int)=>{
+                            return(
+                                <div className='text-white'>
+                                    {int}
+                                </div>
+                            )
+                        })
+                    }
+                    </>
+                )
+            }
+        </div>
+
     </CarouselItem>
   )
 }

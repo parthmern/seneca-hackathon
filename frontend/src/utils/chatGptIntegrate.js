@@ -18,7 +18,7 @@ export const chatGptIntegration = async ({que}) => {
         body : JSON.stringify({
             model : 'gpt-3.5-turbo',
             messages : [{role: "user", content: que}],
-            max_tokens : 200 
+            max_tokens : 300 
         }) 
     }
 
