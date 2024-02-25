@@ -18,6 +18,8 @@ import { Button } from "../components/ui/button"
 
 import { Label } from "../components/ui/label"
 
+import { Textarea } from "../components/ui/textarea"
+
 
 const UserDetails = () => {
   const [name, setName] = useState('');
@@ -25,7 +27,7 @@ const UserDetails = () => {
   const [interests, setInterests] = useState([]);
   const [smoking, setSmoking] = useState(false);
   const [file, setFile] = useState();
-
+  const [bio, setBio] = useState('');
 
 
   const handleInterestChange = (event) => {
@@ -40,7 +42,7 @@ const UserDetails = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Here you can perform any additional logic, such as sending data to a server
-    console.log({ name, gender, interests, smoking });
+    console.log({ name, gender, interests, smoking, bio });
     
 
     try {
@@ -64,7 +66,8 @@ const UserDetails = () => {
             gender,
             interest : interests,
             smoking,
-            profileImg
+            profileImg,
+            bio
         });
         
         console.log('Record updated successfully:', response);
@@ -180,7 +183,12 @@ const UserDetails = () => {
         </label>
         <br />
 
-        <div className="grid w-full max-w-sm items-center gap-1.5">
+        <label >
+          Bio :
+          <Textarea placeholder="Type your bio here." onKeyUp={(e)=> {console.log(e.target.value); setBio(e.target.value); }} />
+        </label>
+
+        <div className="grid w-full max-w-sm items-center mt-3 gap-1.5">
           <Label className='font-bold' htmlFor="picture">Profile Image: </Label>
           <Input onChange={(e)=> {console.log(e.target.files[0]); setFile(e.target.files[0])}} id="picture" type="file" accept=".jpg, .jpeg, .png" />
         </div>
