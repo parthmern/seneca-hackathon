@@ -3,6 +3,8 @@ import "./App.css";
 import  HomePage from "./pages/HomePage";
 import UserDetails from "./pages/UserDetails";
 import ProfileMatchePage from "./pages/ProfileMatchePage";
+import RegistrationForm from "./pages/RegistrationForm";
+import LoginForm from "./pages/LoginForm";
 
 function App() {
   return (
@@ -12,6 +14,8 @@ function App() {
       <Route path="/" element={<HomePage/>} />
       <Route path="/user-details" element={<UserDetails/>} />
       <Route path="/profile-match" element={<ProfileMatchePage />} />
+      <Route path="/register" element={<RegistrationForm />} />
+      <Route path="/login" element={<LoginForm/>}></Route>
       
     </Routes>
     </div>

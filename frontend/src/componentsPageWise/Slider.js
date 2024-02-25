@@ -17,8 +17,9 @@ const Slider = ({user}) => {
     const name = user?.name ;
     const profileImg = user?.profileImg ;
     const interst = user?.interest ;
-    const gender = user?.gender === 'male'
+    const gender = user?.gender === 'male' ;
     //console.log("interst=>", interst);
+    const bio = user?.bio ;
 
   return (
     <CarouselItem className='text-white flex flex-col gap-y-3 items-center justify-center'>
@@ -50,6 +51,15 @@ const Slider = ({user}) => {
                         })
                     }
                     </>
+                )
+            }
+        </div>
+        
+        <div>
+            {
+                bio && 
+                (
+                    <Badge className={'text-black bg-[#2CDDDD] ml-2 hover:bg-[#2CDDDD]'}>{`BIO = ${bio}`}</Badge>
                 )
             }
         </div>

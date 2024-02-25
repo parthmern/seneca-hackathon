@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Databases } from 'appwrite';
 import { client, database } from '../appwriteConfig/config';
@@ -19,6 +19,7 @@ import { Button } from "../components/ui/button"
 import { Label } from "../components/ui/label"
 
 import { Textarea } from "../components/ui/textarea"
+import { AppContext } from '../context/AppContext';
 
 
 const UserDetails = () => {
@@ -29,6 +30,26 @@ const UserDetails = () => {
   const [file, setFile] = useState();
   const [bio, setBio] = useState('');
 
+  const {login, userDocId, loginEmail} = useContext(AppContext);
+
+  useEffect(()=>{
+    async function getUserDetails(){
+      console.log(userDocId);
+      if(login && userDocId){
+        const res = await database.getDocument(dbId, UserDetailsId, userDocId);
+        console.log(res);
+  
+        if(res){
+          setName(res?.name);
+          setBio(res?.bio);
+          setGender(res?.gender);
+          setInterests(res?.interest);
+          setSmoking(res?.smoking);
+        }
+      }
+    }
+    getUserDetails();
+  }, [])
 
   const handleInterestChange = (event) => {
     const { value, checked } = event.target;
@@ -49,19 +70,21 @@ const UserDetails = () => {
 
       var toastId = toast.loading("Loading...")
 
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'xas6zgld');
-      formData.append('folder', 'senecaApp');
-  
-      const imageUpload = await axios.post(
-        'https://api.cloudinary.com/v1_1/dncm3mid4/image/upload',
-        formData
-      );
-      console.log(imageUpload.data.secure_url);
-      const profileImg = imageUpload.data.secure_url ;
+      if(file){
+        const formData = new FormData();
+        formData.append('file', file);
+        formData.append('upload_preset', 'xas6zgld');
+        formData.append('folder', 'senecaApp');
+    
+        const imageUpload = await axios.post(
+          'https://api.cloudinary.com/v1_1/dncm3mid4/image/upload',
+          formData
+        );
+        console.log(imageUpload.data.secure_url);
+        var profileImg = imageUpload.data.secure_url ;
+      }
 
-        const response = await database.createDocument(dbId, UserDetailsId, "unique()",{
+        const response = await database.updateDocument(dbId, UserDetailsId, userDocId,{
             name,
             gender,
             interest : interests,
@@ -103,7 +126,7 @@ const UserDetails = () => {
             <option value="female">Female</option>
           </select> */}
 
-          <Select Value={Select.Value} onValueChange={(e)=>{console.log(e); setGender(e); }}>
+          <Select value={gender} onValueChange={(e)=>{console.log(e); setGender(e); }}>
             <SelectTrigger   className="w-[180px]">
               <SelectValue   placeholder="Select Gender" />
             </SelectTrigger>
@@ -179,13 +202,13 @@ const UserDetails = () => {
         <label className='flex font-bold items-center gap-x-5'>
           Smoking:
           {/* <input type="checkbox" checked={smoking} onChange={(e) => setSmoking(e.target.checked)} /> */}
-          <Switch  onCheckedChange={(e) =>{ console.log("smoking", e); setSmoking(e)}} />
+          <Switch value={smoking} onCheckedChange={(e) =>{ console.log("smoking", e); setSmoking(e)}} />
         </label>
         <br />
 
         <label >
           Bio :
-          <Textarea placeholder="Type your bio here." onKeyUp={(e)=> {console.log(e.target.value); setBio(e.target.value); }} />
+          <Textarea value={bio} placeholder="Type your bio here." onChange={(e)=> {console.log(e.target.value); setBio(e.target.value); }} />
         </label>
 
         <div className="grid w-full max-w-sm items-center mt-3 gap-1.5">
